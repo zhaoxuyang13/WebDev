@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.backend.bookstore.mapper.OrderMapper">
+
+
+    <insert id="insertNewOrder"
+            parameterType="com.backend.bookstore.entity.Order"
+            useGeneratedKeys="true"
+            keyProperty="orderID"
+            timeout="20">
+        insert  into orders(orderID, orderTime, userID, orderItem)
+        values (null,#{orderTime},#{userID},null)
+    </insert>
+    <insert id="insertNewOrderItem"
+            parameterType="com.backend.bookstore.entity.OrderItem"
+            useGeneratedKeys="true"
+            keyProperty="orderItemID"
+            timeout="20">
+        insert  into orderitems(orderItemID, orderID, bookID, bookNum)
+        values (null,#{orderID},#{bookID},#{bookNum})
+    </insert>
+
+
+</mapper>

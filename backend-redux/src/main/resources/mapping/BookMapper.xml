@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.backend.bookstore.mapper.BookMapper">
+
+    <resultMap id="BaseResultMap" type="com.backend.bookstore.entity.BookData">
+        <result column="bookID" jdbcType="INTEGER" property="bookID" />
+        <result column="bookStorage" jdbcType="INTEGER" property="bookStorage" />
+        <result column="bookAuthor" jdbcType="VARCHAR" property="bookAuthor" />
+        <result column="bookDesc" jdbcType="VARCHAR" property="bookDesc" />
+        <result column="bookISBN" jdbcType="VARCHAR" property="bookISBN" />
+        <result column="bookName" jdbcType="VARCHAR" property="bookName" />
+        <result column="bookCoverUrl" jdbcType="VARCHAR" property="bookCoverUrl" />
+        <result column="bookPrice" jdbcType="DOUBLE" property="bookPrice" />
+    </resultMap>
+
+    <select id="SelectAll" resultMap="BaseResultMap">
+        select * from booklist
+    </select>
+
+    <update id="RemoveFromStorage" parameterType="com.backend.bookstore.entity.OrderItem">
+        update booklist set bookStorage = bookStorage - #{bookNum} where bookID = #{bookID}
+    </update>
+</mapper>

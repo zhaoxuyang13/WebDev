@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.backend.bookstore.mapper.UserMapper">
+
+    <resultMap id="UserResultMap" type="com.backend.bookstore.entity.UserData">
+        <id column="userID" jdbcType="INTEGER" property="userID" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="userAuth" jdbcType="VARCHAR" property="userAuth" />
+    </resultMap>
+    <select id="SelectByName" parameterType="String" resultMap="UserResultMap">
+        select * from users where username = #{username}
+    </select>
+
+    <select id="SelectMaxID" resultType="int">
+        select max(userID) from users
+    </select>
+
+    <select id="existUserName" parameterType="String" resultType="int">
+        select count(*) from users where username = #{username}
+    </select>
+
+    <insert id="insertNewUser"
+            parameterType="com.backend.bookstore.entity.UserData"
+            timeout="20">
+        insert into users(userID, username, email, password, userAuth)
+        values (#{userID},#{username},#{email},#{password},#{userAuth})
+    </insert>
+
+</mapper>
