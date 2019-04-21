@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import '@devexpress/dx-react-grid/dist/dx-react-grid.es'
 import './index.css'
 import 'bootstrap/dist/css/bootstrap-theme.css'
 import 'bootstrap/dist/css/bootstrap.css'

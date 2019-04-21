@@ -9,15 +9,15 @@
         <result column="password" jdbcType="VARCHAR" property="password" />
         <result column="userAuth" jdbcType="VARCHAR" property="userAuth" />
     </resultMap>
-    <select id="SelectByName" parameterType="String" resultMap="UserResultMap">
+    <select id="SelectByName" parameterType="String" resultMap="UserResultMap" timeout="20">
         select * from users where username = #{username}
     </select>
 
-    <select id="SelectMaxID" resultType="int">
+    <select id="SelectMaxID" resultType="int" timeout="20">
         select max(userID) from users
     </select>
 
-    <select id="existUserName" parameterType="String" resultType="int">
+    <select id="existUserName" parameterType="String" resultType="int" timeout="20">
         select count(*) from users where username = #{username}
     </select>
 

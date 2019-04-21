@@ -92,6 +92,9 @@ public class UserController {
     @RequestMapping(value = "/Logout",method = RequestMethod.GET)
     public String Logout(HttpSession session){
         session.setAttribute("isLogin",false);
+        session.removeAttribute("User");
+        session.removeAttribute("Cart");
+        session.invalidate();
         return "{ \"info\": \"logoutSuccess\"}";
     }
     @RequestMapping(value = "/", method = RequestMethod.POST)

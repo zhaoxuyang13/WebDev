@@ -13,11 +13,36 @@
         <result column="bookPrice" jdbcType="DOUBLE" property="bookPrice" />
     </resultMap>
 
-    <select id="SelectAll" resultMap="BaseResultMap">
+    <select id="SelectAll" resultMap="BaseResultMap" timeout="20">
         select * from booklist
     </select>
 
-    <update id="RemoveFromStorage" parameterType="com.backend.bookstore.entity.OrderItem">
+    <update id="RemoveFromStorage" parameterType="com.backend.bookstore.entity.OrderItem" timeout="20">
         update booklist set bookStorage = bookStorage - #{bookNum} where bookID = #{bookID}
     </update>
+
+    <update id="UpdateBookList" parameterType="com.backend.bookstore.entity.BookData" timeout="20">
+        update booklist set
+          bookStorage = #{bookStorage},
+          bookAuthor = #{bookAuthor},
+          bookDesc = #{bookDesc},
+          bookISBN = #{bookISBN},
+          bookPrice = #{bookPrice},
+          bookCoverUrl = #{bookCoverUrl},
+          bookName = #{bookName}
+        where bookID = #{bookID}
+    </update>
+
+    <select id="SelectMaxBookID" resultType="INTEGER" timeout="20">
+        select max(bookID) from booklist
+    </select>
+
+    <insert id="InsertBookList" parameterType="com.backend.bookstore.entity.BookData" timeout="20">
+        insert booklist(bookID, bookStorage, bookAuthor, bookDesc, bookISBN, bookName, bookCoverUrl, bookPrice)
+        values (#{bookID},#{bookStorage},#{bookAuthor},#{bookDesc},#{bookISBN},#{bookName},#{bookCoverUrl},#{bookPrice})
+    </insert>
+
+    <delete id="DeleteBookByID" parameterType="INTEGER" timeout="20">
+        delete from booklist where bookID = #{bookID}
+    </delete>
 </mapper>

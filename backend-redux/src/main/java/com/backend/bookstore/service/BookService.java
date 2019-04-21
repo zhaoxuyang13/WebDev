@@ -26,4 +26,15 @@ public class BookService {
         for(OrderItem item: items)
             bookMapper.RemoveFromStorage(item);
     }
+    public void UpdateBookList(BookData bookData){
+        bookMapper.UpdateBookList(bookData);
+    }
+
+    public void InsertBookList(BookData bookData){
+        bookData.setBookID(bookMapper.SelectMaxBookID()+1);
+        bookMapper.InsertBookList(bookData);
+    }
+    public void DeleteBookByID(int bookID){
+        bookMapper.DeleteBookByID(bookID);
+    }
 }

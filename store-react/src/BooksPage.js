@@ -81,6 +81,7 @@ class BooksPageRaw extends Component {
   }
   gotoLoginPage = () =>{
     this.props.history.push('./LoginPage')
+
   }
   haveMoreBooks = (bookID) =>{  // TODO:remove this feature to backend.
     let inCart = this.props.userCart.find(book=> bookID === book.bookID);

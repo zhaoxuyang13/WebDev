@@ -83,11 +83,12 @@ body {
     padding: 10px;
     max-height: 100px;
 }
-
-.mainColumn {
+.wideColumn{
     display: flex;
     margin: 10px auto;
-    width: 600px;
+}
+.mainColumn {
+
 }
 
 .bookName {

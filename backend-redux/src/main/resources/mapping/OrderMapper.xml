@@ -11,6 +11,7 @@
         insert  into orders(orderID, orderTime, userID, orderItem)
         values (null,#{orderTime},#{userID},null)
     </insert>
+
     <insert id="insertNewOrderItem"
             parameterType="com.backend.bookstore.entity.OrderItem"
             useGeneratedKeys="true"

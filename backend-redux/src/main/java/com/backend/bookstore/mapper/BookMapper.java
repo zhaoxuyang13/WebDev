@@ -10,4 +10,8 @@ import java.util.List;
 public interface BookMapper {
     List<BookData> SelectAll();
     void RemoveFromStorage(OrderItem item);
+    void UpdateBookList(BookData bookData);
+    int SelectMaxBookID();
+    void InsertBookList(BookData bookData);
+    void DeleteBookByID(int bookID);
 }
