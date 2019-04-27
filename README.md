@@ -5,26 +5,36 @@ by Zhao XuYang for SE course Web-Development
 >2019/4/20 this is not the first version
 
 rebuild backend with Spring, and open a new repo
+
+>2019/4/22 
+
+add admin page , use ReactGrid by DevExpress
+
+>2019/4/27
+
+upgrade user's function. implement userHoePage
+finish bookFiltering through time today
+
 #Frontend
-+ React
++ React + react-router
 + Redux
 + Axios
 + bootstrap
-+ element-ui
++ material-ui / React-Grid (DevExpress )
+
 #Backend
 + Spring boot
 + Maven
 + ORM : Mybatis+MySQL
 + fastJSON
+
 #TODO LIST:
 + all Admin's operations
-    - authority grant
     - check all orders in the system  ( search in several ways)
     - filter book selling by time/book  by user
-+ Complete functions
++ Complete functionaries
     - better check for user email , username, password
     - choose book display detail information
-    - user can check all orders of him/herself
     - filter book buying by time   
 + Spring security
 + Spring actuator
