@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface BookMapper {
     List<BookData> SelectAll();
+    BookData SelectByID(int id);
     void RemoveFromStorage(OrderItem item);
     void UpdateBookList(BookData bookData);
     int SelectMaxBookID();

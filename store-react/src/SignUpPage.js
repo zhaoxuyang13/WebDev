@@ -12,12 +12,12 @@ class SignUpPageRaw extends Component {
   gotoHomePage = () => {
     this.props.history.push('./')
   }
-  validator = (username, email, pswd,pswd_confirm)=>{
-    if(pswd !== pswd_confirm) {
-      alert("password_confirm not consistent with password , try again !")
-      return false;
+  validator = (username, email, pswd, pswd_confirm) => {
+    if (pswd !== pswd_confirm) {
+      alert('password_confirm not consistent with password , try again !')
+      return false
     }
-    return true;
+    return true
   }
   signUp = () => {
     //TODO: better way for getG value
@@ -25,35 +25,35 @@ class SignUpPageRaw extends Component {
     const email = document.getElementById('email').value
     const pswd = document.getElementById('pwd').value
     const pswd_confirm = document.getElementById('pwd-confirm').value
-    if(this.validator(username, email,pswd,pswd_confirm)) {
+    if (this.validator(username, email, pswd, pswd_confirm)) {
       axios({
-        headers:{
-          'Content-Type':'application/json'
+        headers: {
+          'Content-Type': 'application/json'
         },
-        transformRequest:[(data) => JSON.stringify(data)],
-        withCredentials:true,
-        baseURL:"http://localhost:8080/",
-        method: "post",
-        url: "/UserAccount/SignUp",
-        data:{
-          username:username,
+        transformRequest: [(data) => JSON.stringify(data)],
+        withCredentials: true,
+        baseURL: 'http://localhost:8080/',
+        method: 'post',
+        url: '/UserAccount/SignUp',
+        data: {
+          username: username,
           password: pswd,
-          email:email
+          email: email
         },
-        responseType:"json",
+        responseType: 'json'
       }).then(response => {
         console.log(response)
-        if(response.data.loginSuccess){
+        if (response.data.loginSuccess) {
           this.props.onSignUpSuccess(response.data.userData)
-          this.gotoHomePage();
-        }else{
-          let errorInfo = response.data.errorInfo;
-          alert("failed.\n errorInfo : " + errorInfo);
+          this.gotoHomePage()
+        } else {
+          let errorInfo = response.data.errorInfo
+          alert('failed.\n errorInfo : ' + errorInfo)
         }
       })
     } else {
       //TODO : clear form.
-      alert("failed.invalid password");
+      alert('failed.invalid password')
     }
   }
 
@@ -87,6 +87,7 @@ class SignUpPageRaw extends Component {
     )
   }
 }
+
 const mapStateToProps = () => {
   return {}
 }

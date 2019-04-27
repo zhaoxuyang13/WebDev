@@ -34,7 +34,7 @@ public class UserCartController {
     public String get(HttpSession session){
         ShoppingCart cart = (ShoppingCart) session.getAttribute("Cart");
         UserData user = (UserData) session.getAttribute("User");
-        if(cart == null || !(boolean) session.getAttribute("isLogin")){
+        if(cart == null ){
             return null;
         }
         return JSON.toJSONString(cart);
@@ -65,14 +65,16 @@ public class UserCartController {
         if(user == null){
             return "errorInfo: no user exist";
         }
-        int orderID = orderService.insertNewOrder(
-                new Order(user.getUserID())
-        );
+        Order newOrder = new Order(user.getUserID());
+        orderService.insertNewOrder(newOrder);
+        int newOrderID = newOrder.getOrderID();
         /* Need  Transaction  V */
-        ArrayList<OrderItem> orderItems = cart.getOrderItems(orderID);
+        ArrayList<OrderItem> orderItems = cart.getOrderItems(newOrderID);
         for(OrderItem item: orderItems){
-            int orderItemID = orderService.insertNewOrderItem(item);
-            item.setOrderItemID(orderItemID);
+            item.setOrderID(newOrderID);
+            double itemPrice = bookService.SelectByID(item.getBookID()).getBookPrice();
+            item.setPrice(itemPrice);
+            orderService.insertNewOrderItem(item);
         }
         bookService.RemoveFromStorage(orderItems);
         /* Need Transaction   A */

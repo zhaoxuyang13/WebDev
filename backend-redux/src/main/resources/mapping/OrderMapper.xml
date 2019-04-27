@@ -2,24 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.backend.bookstore.mapper.OrderMapper">
 
+    <resultMap id="OrderResultMap" type="com.backend.bookstore.entity.Order">
+        <id column="orderID" jdbcType="INTEGER" property="orderID" />
+        <result column="userID" jdbcType="INTEGER" property="userID" />
+        <result column="orderTime" jdbcType="TIMESTAMP" property="orderTime" />
+    </resultMap>
+
+    <resultMap id="OrderItemResultMap" type="com.backend.bookstore.entity.OrderItem">
+        <id column="orderItemID" jdbcType="INTEGER" property="orderItemID" />
+        <result column="orderID" jdbcType="INTEGER" property="orderID" />
+        <result column="bookID" jdbcType="INTEGER" property="bookID"/>
+        <result column="bookNum" jdbcType="INTEGER" property="bookNum" />
+        <result column="price" jdbcType="DOUBLE" property="price" />
+    </resultMap>
 
     <insert id="insertNewOrder"
             parameterType="com.backend.bookstore.entity.Order"
             useGeneratedKeys="true"
             keyProperty="orderID"
+            keyColumn="orderID"
             timeout="20">
-        insert  into orders(orderID, orderTime, userID, orderItem)
-        values (null,#{orderTime},#{userID},null)
+        insert  into orders(orderTime, userID)
+        values (#{orderTime},#{userID})
     </insert>
 
     <insert id="insertNewOrderItem"
             parameterType="com.backend.bookstore.entity.OrderItem"
             useGeneratedKeys="true"
             keyProperty="orderItemID"
+            keyColumn="orderItemID"
             timeout="20">
-        insert  into orderitems(orderItemID, orderID, bookID, bookNum)
-        values (null,#{orderID},#{bookID},#{bookNum})
+        insert  into orderitems(orderID, bookID, bookNum,price)
+        values (#{orderID},#{bookID},#{bookNum},#{price})
     </insert>
 
+    <select id="SelectOrderByUser" parameterType="INTEGER" resultMap="OrderResultMap">
+        select * from orders where  userID = #{userID}
+    </select>
 
+    <select id="SelectOrderItemsByOrderID" parameterType="INTEGER" resultMap="OrderItemResultMap">
+        select * from orderitems where orderID = #{orderID}
+    </select>
+
+    <select id="SelectAllOrders" resultMap="OrderResultMap">
+        select * from orders
+    </select>
 </mapper>

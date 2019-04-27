@@ -22,6 +22,9 @@ public class BookService {
         }
         return selectAll;
     }
+    public BookData SelectByID(int id){
+        return  bookMapper.SelectByID(id);
+    }
     public void RemoveFromStorage(ArrayList<OrderItem> items){
         for(OrderItem item: items)
             bookMapper.RemoveFromStorage(item);
@@ -37,4 +40,5 @@ public class BookService {
     public void DeleteBookByID(int bookID){
         bookMapper.DeleteBookByID(bookID);
     }
+
 }

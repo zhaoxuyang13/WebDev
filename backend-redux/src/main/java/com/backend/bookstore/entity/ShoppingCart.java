@@ -36,7 +36,7 @@ public class ShoppingCart{
         ArrayList<OrderItem> orderItems = new ArrayList<>();
         for(CartItem item : items){
             orderItems.add(
-                    new OrderItem(0,orderID,item.bookID,item.number)
+                    new OrderItem(0,orderID,item.bookID,item.number,0)
             );
         }
         return orderItems;

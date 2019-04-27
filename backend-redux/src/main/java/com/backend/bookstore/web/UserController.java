@@ -91,6 +91,7 @@ public class UserController {
 
     @RequestMapping(value = "/Logout",method = RequestMethod.GET)
     public String Logout(HttpSession session){
+        System.out.println("out");
         session.setAttribute("isLogin",false);
         session.removeAttribute("User");
         session.removeAttribute("Cart");

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
-import { loginWithUserInfo} from './actions/loginAction'
-import MyAlertDialog from './Components/MyDialog';
+import { loginWithUserInfo } from './actions/loginAction'
 import axios from 'axios'
+
 class LoginPageRaw extends Component {
   constructor (props){
     super(props);
@@ -18,7 +18,7 @@ class LoginPageRaw extends Component {
     this.props.history.push('./')
   }
   gotoAdminPage = () =>{
-    this.props.history.push('./AdminPage')//TODO:add Admin page and change this line
+    this.props.history.push('./AdminPage')
   }
   Login = () => {
     let pswd = document.getElementById('pwd').value
@@ -39,10 +39,10 @@ class LoginPageRaw extends Component {
       },
       responseType:"json",
     }).then(response => {
-      console.log(response)
       if(response.data.loginSuccess){
         this.props.onLoginSuccess(response.data.userData)
-        this.gotoHomePage();
+        if(response.data.userData.userAuth === "admin") this.gotoAdminPage();
+        else this.gotoHomePage();
       }else{
         let errorInfo = response.data.errorInfo;
         alert("failed.\n errorInfo : " + errorInfo);
@@ -69,7 +69,6 @@ class LoginPageRaw extends Component {
             <button type="button" className="btn btn-outline-dark" onClick={this.gotoSignUpPage}>没有账号，点此注册</button>
           </div>
         </div>
-        <MyAlertDialog content="1234" title= "5678" open = {this.state.openAlertDialog}/>
       </div>
     )
   }

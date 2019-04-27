@@ -13,6 +13,10 @@
         select * from users where username = #{username}
     </select>
 
+    <select id="SelectAllUser" resultMap="UserResultMap" timeout="20">
+        select * from users
+    </select>
+
     <select id="SelectMaxID" resultType="int" timeout="20">
         select max(userID) from users
     </select>
@@ -28,4 +32,17 @@
         values (#{userID},#{username},#{email},#{password},#{userAuth})
     </insert>
 
+    <update id="UpdateUserList" parameterType="com.backend.bookstore.entity.UserData" timeout="20">
+        update users set
+                           username = #{username},
+                         email = #{email},
+                         password = #{password},
+                         userAuth =#{userAuth}
+        where userID = #{userID}
+    </update>
+
+
+    <delete id="DeleteUserByID" parameterType="INTEGER" timeout="20">
+        delete from users where userID = #{userID}
+    </delete>
 </mapper>

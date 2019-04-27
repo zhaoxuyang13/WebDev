@@ -12,19 +12,19 @@ class HomePageRaw extends Component {
   constructor (props) {
     super(props)
   }
+
   componentDidMount () {
     axios({
-      baseURL:"http://localhost:8080/",
-      method: "get",
-      url: "/UserCart/",
-      responseType:"json"
-    }).then(response=>{
-      console.log(response)
-      if(response.data === null) return;
-      this.props.onLoadUserCart(response.data.items);
+      withCredentials:true,
+      baseURL: 'http://localhost:8080/',
+      method: 'get',
+      url: '/UserCart/',
+      responseType: 'json'
+    }).then(response => {
+      if (response.data === null) return
+      this.props.onLoadUserCart(response.data.items)
     })
   }
-
   gotoSignUpPage = () => {
     this.props.history.push('./SignUpPage')
   }
@@ -33,10 +33,14 @@ class HomePageRaw extends Component {
   }
 
   render () {
-    const SignBtns = <div> <button className="btn btn-dark text-center mt-3 mr-4" type="button" onClick={this.gotoSignUpPage}> Sign up for more</button>
-                           <button className="btn btn-dark text-center mt-3" type="button" onClick={this.gotoLoginPage}> Sign in now</button> </div>
+    const SignBtns = <div>
+      <button className="btn btn-dark text-center mt-3 mr-4" type="button" onClick={this.gotoSignUpPage}> Sign up for
+        more
+      </button>
+      <button className="btn btn-dark text-center mt-3" type="button" onClick={this.gotoLoginPage}> Sign in now</button>
+    </div>
     const HelloMsg = <p>Hi There , {this.props.userInfo.username} </p>
-    const alternative = this.props.userInfo.isLogin ?  HelloMsg : SignBtns
+    const alternative = this.props.userInfo.isLogin ? HelloMsg : SignBtns
     return (
       <main className="home-content" role="main">
         <div className="jumbotron jumbotron-fluid">
@@ -53,6 +57,7 @@ class HomePageRaw extends Component {
     )
   }
 }
+
 const mapStateToProps = state => {
   return {
     userInfo: state.userInfo
@@ -60,7 +65,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    onLoadUserCart: (cart) =>{
+    onLoadUserCart: (cart) => {
       dispatch(loadCartFromBackend(cart))
     }
   }

@@ -1,29 +1,31 @@
 import React from 'react'
 import Dialog from '@material-ui/core/Dialog'
-import Button from '@material-ui/core/Button';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 
 class MyAlertDialog extends React.Component {
-  constructor (props){
+  constructor (props) {
     super(props)
     this.state = {
-      open: false,
-    };
-  }
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-  componentWillReceiveProps (nextProps, nextContext) {
-    console.log("do")
-    const {open} = nextProps
-    if(open === true){
-      this.setState({open:true})
+      open: false
     }
   }
-  render() {
+
+  handleClose = () => {
+    this.setState({ open: false })
+  }
+
+  componentWillReceiveProps (nextProps, nextContext) {
+    const { open } = nextProps
+    if (open === true) {
+      this.setState({ open: true })
+    }
+  }
+
+  render () {
     return (
       <Dialog
         open={this.state.open}
@@ -43,7 +45,8 @@ class MyAlertDialog extends React.Component {
           </Button>
         </DialogActions>
       </Dialog>
-    );
+    )
   }
 }
-export default MyAlertDialog;
+
+export default MyAlertDialog

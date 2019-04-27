@@ -1,14 +1,14 @@
-import React from 'react'
-import { Component } from 'react'
+import React, { Component } from 'react'
 import { Paper } from '@material-ui/core'
 import Typography from '../BooksPage'
 
 class BookCard extends Component {
   render () {
-    const inCartSignal = this.props.numberInCart > 0 ?  <div className="mb-2"> 已加入购物车 {this.props.numberInCart}本</div>  : <div/>;
+    const inCartSignal = this.props.numberInCart > 0 ? <div className="mb-2"> 已加入购物车 {this.props.numberInCart}本</div> :
+      <div/>
     return (
       <div className="container ">
-        <Paper className="d-flex bookCard" elevation={1} >
+        <Paper className="d-flex bookCard" elevation={1}>
           <div className="bookCover col-2">
             <img src={this.props.coverUrl} alt="" style={{ width: '100%' }}/>
           </div>
@@ -26,7 +26,7 @@ class BookCard extends Component {
           <div className="bookOperation ml-auto mt-auto flex-column ">
             {inCartSignal}
             <div className="bookPrice text-right">￥{this.props.bookPrice}</div>
-            <button className="btn btn-outline-dark" onClick={ this.props.onClick}> 加入购物车</button>
+            <button className="btn btn-outline-dark" onClick={this.props.onClick}> 加入购物车</button>
           </div>
         </Paper>
       </div>
@@ -34,4 +34,4 @@ class BookCard extends Component {
   }
 }
 
-export default BookCard;
+export default BookCard

@@ -10,7 +10,7 @@ class NavigationBarRaw extends Component {
   gotoLoginPage = () => {
     this.props.history.push('/LoginPage')
   }
-  gotoHomePage = () =>{
+  gotoHomePage = () => {
     this.props.history.push('/')
   }
   search = (e) => {
@@ -20,18 +20,18 @@ class NavigationBarRaw extends Component {
   }
   signOut = () => {
     axios({
-      baseURL:"http://localhost:8080/",
-      method: "get",
-      url: "/UserAccount/Logout",
-      responseType:"json"
-    }).then(response=>{
+      baseURL: 'http://localhost:8080/',
+      method: 'get',
+      url: '/UserAccount/Logout',
+      responseType: 'json'
+    }).then(response => {
       console.log(response)
     })
-    this.props.onLogOut();
-    this.gotoHomePage();
+    this.props.onLogOut()
+    this.gotoHomePage()
   }
   render () {
-    const {isLogin,isAdmin } = this.props.userInfo
+    const { isLogin, isAdmin } = this.props.userInfo
     const loginBtn = isLogin ?
       <button className="btn btn-outline-light" type="button" id="login-btn" onClick={this.signOut}> 登出</button> :
       <button className="btn btn-outline-light" type="button" id="login-btn"
@@ -39,8 +39,11 @@ class NavigationBarRaw extends Component {
     const adminAccess = isAdmin ?
       <li className="nav-item">
         <Link className="nav-link" to="/AdminPage">管理员</Link>
-      </li> : null;
-
+      </li> : null
+    const userAccess = isLogin && !isAdmin ?
+      <li className="nav-item">
+        <Link className="nav-link" to="/UserHomePage">我的</Link>
+      </li> : null
     return (
       <header className="bg-nav navbar navbar-expand navbar-dark flex-column flex-sm-row  m-0 py-0">
         <a className="navbar-brand m-0 px-1 py-0" href="/" aria-label="StoreIcon">
@@ -66,6 +69,7 @@ class NavigationBarRaw extends Component {
               <Link className="nav-link" to="/CartPage">购物车</Link>
             </li>
             {adminAccess}
+            {userAccess}
           </ul>
         </div>
         <form className="form-inline ml-sm-auto d-none d-sm-flex" onSubmit={this.search}>

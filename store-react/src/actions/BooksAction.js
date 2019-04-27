@@ -1,15 +1,15 @@
 /*export const ADD_TO_CART = "ADD_TO_CART"
 export const REMOVE_FROM_CART ='REMOVE_FROM_CART'
 export const REMOVE_ALL_FROM_CART = "REMOVE_ALL_FROM_CART"*/
-export const LOAD_CART_FROM_BACKEND = "LOAD_CART_FROM_BACKEND"
-export const loadCartFromBackend = (cart) =>({
+export const LOAD_CART_FROM_BACKEND = 'LOAD_CART_FROM_BACKEND'
+export const loadCartFromBackend = (cart) => ({
   type: LOAD_CART_FROM_BACKEND,
-  cart,
+  cart
 })
-export const LOAD_LIST_TO_STORE = "LOAD_LIST_TO_STORE"
-export const loadListToStore = (booksData) =>({
+export const LOAD_LIST_TO_STORE = 'LOAD_LIST_TO_STORE'
+export const loadListToStore = (booksData) => ({
   type: LOAD_LIST_TO_STORE,
-  booksData,
+  booksData
 })
 /*
 export const addToCart = (bookID) =>({

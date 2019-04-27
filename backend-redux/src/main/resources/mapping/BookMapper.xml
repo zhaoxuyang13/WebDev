@@ -16,7 +16,9 @@
     <select id="SelectAll" resultMap="BaseResultMap" timeout="20">
         select * from booklist
     </select>
-
+    <select id="SelectByID" parameterType="INTEGER" resultMap="BaseResultMap" timeout="20">
+        select * from booklist where  bookID = #{id}
+    </select>
     <update id="RemoveFromStorage" parameterType="com.backend.bookstore.entity.OrderItem" timeout="20">
         update booklist set bookStorage = bookStorage - #{bookNum} where bookID = #{bookID}
     </update>

@@ -6,6 +6,15 @@ public class OrderItem{
     private int orderID;
     private int bookID;
     private int bookNum;
+    private double price;
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     public int getOrderItemID() {
         return orderItemID;
@@ -39,10 +48,11 @@ public class OrderItem{
         this.bookNum = bookNum;
     }
 
-    public OrderItem(int orderItemID, int orderID, int bookID, int bookNum) {
+    public OrderItem(int orderItemID, int orderID, int bookID, int bookNum, double price) {
         this.orderItemID = orderItemID;
         this.orderID = orderID;
         this.bookID = bookID;
         this.bookNum = bookNum;
+        this.price = price;
     }
 }

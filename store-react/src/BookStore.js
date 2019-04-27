@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import {storeApp, initialState} from './reducers/reducer.js'
+import { initialState, storeApp } from './reducers/reducer.js'
 import NavigationBar from './NavigationBar.js'
+import axios from 'axios'
+import { loginWithUserInfo } from './actions/loginAction'
 
 class Footer extends Component {
   render () {
@@ -14,14 +16,30 @@ class Footer extends Component {
   }
 }
 
-let store = createStore(storeApp,initialState)
+let store = createStore(storeApp, initialState)
 
 class BookStore extends Component {
   constructor (props) {
     super(props)
   }
+  componentWillMount () { /*fetch session Data if Exist*/ //TODO: how to load user data when directly browse other pages ?
+    axios({
+      withCredentials:true,
+      baseURL:"http://localhost:8080/",
+      method: "get",
+      url: "/UserAccount/",
+      responseType:"json",
+    }).then(response => {
+      if(response.data.loginSuccess){
+        store.dispatch(loginWithUserInfo(response.data.userData))
+        console.log("load user Data")
+      }else{
+        console.log(response.data.errorInfo)
+      }
+    })
+  }
+
   render () {
-    console.log(store.getState().books);
     return (
       <Provider store={store}>
         <div className={'BookStorePage'}>
