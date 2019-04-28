@@ -103,13 +103,17 @@ class UserOrder extends Component {
     for (let i = 0; i < response.data.length; i++) {
       let orderSum = 0;
       response.data[i].orderItems.forEach(item => orderSum += item.price * item.bookNum);
-      let orderItemWithBookInfo = response.data[i].orderItems.map((item)=>{
-        let bookInfo = this.props.bookList.find(book => book.bookID === item.bookID).bookInfo
-        return Object.assign({},item,{
-          bookName: bookInfo.bookName,
-          bookISBN: bookInfo.bookISBN,
-          bookAuthor: bookInfo.bookAuthor,
-        });
+      let orderItemWithBookInfo = response.data[i].orderItems.map((item)=> {
+          console.log(item)
+          let book = this.props.bookList.find(book => book.bookID === item.bookID);
+          if (book !== undefined) {
+            let bookInfo = book.bookInfo;
+            return Object.assign({}, item, {
+              bookName: bookInfo.bookName,
+              bookISBN: bookInfo.bookISBN,
+              bookAuthor: bookInfo.bookAuthor,
+            });
+          }else return item;
         }
       );
       orderWithKey.push({

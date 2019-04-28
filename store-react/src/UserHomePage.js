@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
-import Paper from '@material-ui/core/Paper'
 import Tab from "./Components/Tab";
 import UserOrder from './Components/UserOrder';
-
+import { Paper } from '@material-ui/core'
+import axios from 'axios'
+import UserSumForm from './Components/UserSumForm'
 class UserHomePageRaw extends Component{
   constructor (props) {
     super(props)
@@ -19,16 +20,17 @@ class UserHomePageRaw extends Component{
   render(){
     const helloMsg="User: "+this.props.userInfo.username;
     return(
+
       <div className="wideColumn flex-column container">
         <Tab text={helloMsg}/>
         <UserOrder userID = {this.props.userInfo.userID}
                    bookList = {this.props.books}
         />
+        <Tab text="统计"/>
+        <UserSumForm bookList = {this.props.books}/>
       </div>
     )
   }
-
-
 }
 const mapStateToProps = state => {
   return {

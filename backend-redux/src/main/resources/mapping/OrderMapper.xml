@@ -47,4 +47,10 @@
     <select id="SelectAllOrders" resultMap="OrderResultMap">
         select * from orders
     </select>
+
+    <select id="SelectByTimeRange"  resultMap="OrderResultMap">
+        select * from orders
+        where unix_timestamp(orderTime) between #{startTime} and #{endTime}
+              and userID = #{userID}
+    </select>
 </mapper>
