@@ -35,7 +35,6 @@ finish bookFiltering through time today
 + Complete functionaries
     - better check for user email , username, password
     - choose book display detail information
-    - filter book buying by time   
 + Spring security
 + Spring actuator
 + MongoDB
