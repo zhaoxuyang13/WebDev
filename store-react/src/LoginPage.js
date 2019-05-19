@@ -2,13 +2,17 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { loginWithUserInfo } from './actions/loginAction'
+import MySnackBar from './Components/MySnackBar'
 import axios from 'axios'
 
 class LoginPageRaw extends Component {
   constructor (props){
     super(props);
     this.state ={
-      openAlertDialog : false
+      snackBarState:{
+        open : false,
+        variant:"info"
+      }
     }
   }
   gotoSignUpPage = () => {
@@ -19,6 +23,23 @@ class LoginPageRaw extends Component {
   }
   gotoAdminPage = () =>{
     this.props.history.push('./AdminPage')
+  }
+  closeSnackBar = ()=>{
+    this.setState({
+      snackBarState:{
+        open:false,
+        variant: "info",
+      }
+    })
+  }
+  openSnackBar = (newState) =>{
+    this.setState({
+      snackBarState:{
+        open : true,
+        message : newState.message,
+        variant: newState.variant,
+      }
+    })
   }
   Login = () => {
     let pswd = document.getElementById('pwd').value
@@ -45,13 +66,15 @@ class LoginPageRaw extends Component {
         else this.gotoHomePage();
       }else{
         let errorInfo = response.data.errorInfo;
-        alert("failed.\n errorInfo : " + errorInfo);
+        this.openSnackBar({
+          variant: "error",
+          message :"登录失败.\n  原因 : " + errorInfo});
       }
     })
   }
 
   render () {
-    console.log(this.props);
+    const state = this.state;
     return (
       <div className="jumbotron jumbotron-fluid ">
         <div className="container flex-column ">
@@ -69,6 +92,11 @@ class LoginPageRaw extends Component {
             <button type="button" className="btn btn-outline-dark" onClick={this.gotoSignUpPage}>没有账号，点此注册</button>
           </div>
         </div>
+        <MySnackBar open={state.snackBarState.open}
+                    message ={state.snackBarState.message}
+                    handleClose={this.closeSnackBar}
+                    variant={state.snackBarState.variant}
+        />
       </div>
     )
   }

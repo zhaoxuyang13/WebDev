@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap-theme.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap.css.map'
 import MainRouter from './MainRouter.js'
-import * as serviceWorker from './serviceWorker'
+import * as serviceWorker from './serviceWorker.js'
 
 ReactDOM.render(<MainRouter/>, document.getElementById('root'))
 

@@ -5,6 +5,7 @@ import { initialState, storeApp } from './reducers/reducer.js'
 import NavigationBar from './NavigationBar.js'
 import axios from 'axios'
 import { loginWithUserInfo } from './actions/loginAction'
+import createMuiTheme from '@material-ui/core/es/styles/createMuiTheme'
 
 class Footer extends Component {
   render () {

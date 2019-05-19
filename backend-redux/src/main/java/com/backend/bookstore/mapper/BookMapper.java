@@ -16,3 +16,4 @@ public interface BookMapper {
     void InsertBookList(BookData bookData);
     void DeleteBookByID(int bookID);
 }
+
