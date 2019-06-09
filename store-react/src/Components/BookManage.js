@@ -33,6 +33,8 @@ import {
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import Paper from '@material-ui/core/Paper'
+import BookCoverCell from './BookCoverCell'
+
 
 const AddButton = ({ onExecute }) => (
   <div style={{ textAlign: 'center' }}>
@@ -96,6 +98,10 @@ const Command = ({ id, onExecute }) => {
 }
 
 const Cell = (props) => {
+  const {column} = props;
+  if(column.name === 'bookCover'){
+    return <BookCoverCell classname="my-auto p-0"{...props} />
+  }
   return <Table.Cell {...props} />
 }
 
@@ -114,19 +120,14 @@ class BookManage extends Component {
         { name: 'bookStorage', title: '库存' },
         { name: 'bookPrice', title: '价格' },
         { name: 'bookDesc', title: '简介' },
+        {name: 'bookCover', title: '封面'},
         { name: 'bookCoverUrl', title: '封面Url' }
       ],
-      columnOrder: ['bookID', 'bookName', 'bookAuthor', 'bookISBN', 'bookStorage', 'bookPrice', 'bookDesc', 'bookCoverUrl'],
+      columnOrder: ['bookID', 'bookName', 'bookAuthor', 'bookISBN', 'bookStorage', 'bookPrice', 'bookDesc','bookCover', 'bookCoverUrl'],
       tableColumnExtensions: [
         { columnName: 'bookID', width: 50, align: 'right' },
-        { columnName: 'bookName', width: 150 },
-        { columnName: 'bookAuthor', width: 100 },
-        { columnName: 'bookISBN', width: 150 },
-        { columnName: 'bookStorage', width: 80 },
-        { columnName: 'bookPrice', width: 80 },
-        { columnName: 'bookDesc', width: 200 },
-        { columnName: 'bookCoverUrl', width: 100 }
       ],
+
       rows: [],
       sorting: [],
       editingRowIds: [],
@@ -136,7 +137,8 @@ class BookManage extends Component {
       pageSize: 0,
       pageSizes: [5, 10, 0],
       editingStateColumnExtensions: [
-        { columnName: 'bookID', editingEnabled: false }
+        { columnName: 'bookID', editingEnabled: false },
+        { columnName: 'bookCover', editingEnabled: false }
       ],
       leftFixedColumns: [TableEditColumn.COLUMN_TYPE],
       totalSummaryItems: [
@@ -150,6 +152,7 @@ class BookManage extends Component {
         { columnName: 'bookStorage', width: 80 },
         { columnName: 'bookPrice', width: 80 },
         { columnName: 'bookDesc', width: 200 },
+        { columnName: 'bookCover', width: 100 },
         { columnName: 'bookCoverUrl', width: 100 }
       ]
     }

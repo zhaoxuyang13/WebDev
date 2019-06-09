@@ -5,7 +5,7 @@ import Typography from '../BooksPage'
 class BookCard extends Component {
   render () {
     const inCartSignal = this.props.numberInCart > 0 ? <div className="mb-2"> 已加入购物车 {this.props.numberInCart}本</div> :
-      <div/>
+      <div/>;
     return (
       <div className="container ">
         <Paper className="d-flex bookCard" elevation={1}>

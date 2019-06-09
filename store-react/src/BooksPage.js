@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Dialog from '@material-ui/core/Dialog'
 import Button from '@material-ui/core/Button';
-
+import MySnackBar from './Components/MySnackBar'
 axios.defaults.withCredentials = true;
 
 require('./css/styles1.css')
@@ -64,11 +64,12 @@ const DialogActions = withStyles(theme => ({
 /*BookCard*/
 class BookCard extends Component {
   state = {
-    open: false
+    open: false,
   }
+
   handleClick = () =>{
     this.setState({
-      open:true
+      open:true,
     })
   }
   handleClose = () =>{
@@ -161,7 +162,28 @@ class BooksPageRaw extends Component {
     super(props)
     this.state = {
       bookNameFilter: "",
+      snackBarState:{
+        open : false,
+        variant:"info"
+      }
     }
+  }
+  closeSnackBar = ()=>{
+    this.setState({
+      snackBarState:{
+        open:false,
+        variant:"info"
+      }
+    })
+  }
+  openSnackBar = (newState) =>{
+    this.setState({
+      snackBarState:{
+        open : true,
+        message : newState.message,
+        variant: newState.variant,
+      }
+    })
   }
   componentDidMount (){
     axios({
@@ -186,10 +208,16 @@ class BooksPageRaw extends Component {
   }
   onClickAdd =(bookID)=>{
     if(!this.props.isLogin) { // TODO: can admin add books to cart ??
-      alert("please Login first! going to Login Page");
+      this.openSnackBar({
+        variant: "warning",
+        message: "please Login first! going to Login Page"
+      })
       this.gotoLoginPage();
     }else if(this.haveMoreBooks(bookID)){   // if number in cart > number in storage
-      alert("no more books in store! come back later.")
+      this.openSnackBar({
+        variant: "warning",
+        message: "no more books in store! come back later."
+      })
     } else {
       this.onAddToCart(bookID);
     }
@@ -222,15 +250,17 @@ class BooksPageRaw extends Component {
   }
 
   render () {
-    const bookCards = this.props.books.map((book)=>{
+      const state = this.state
+      const bookCards = this.props.books.map((book)=>{
       const filter = this.state.bookNameFilter;
       if(book.bookInfo.bookName.indexOf(filter) > -1) {
         const cartInfo = this.props.userCart.find(item =>  item.bookID === book.bookID);
         const numInCart = (cartInfo === undefined) ?  0 : cartInfo.number;
+        const coverUrl = book.bookInfo.bookCoverUrl === "" ?  "http://localhost:8080/BooksList/bookCover?bookID="+book.bookID : book.bookInfo.bookCoverUrl;
         return (
-          <BookCard key={book.bookID}
-                    bookName={book.bookInfo.bookName}
-                    coverUrl={coverImg}
+          <div key={book.bookID}>
+          <BookCard bookName={book.bookInfo.bookName}
+                    coverUrl={coverUrl}
                     bookISBN={book.bookInfo.bookISBN}
                     bookPrice={book.bookInfo.bookPrice}
                     authorName={book.bookInfo.bookAuthor}
@@ -240,7 +270,14 @@ class BooksPageRaw extends Component {
                       this.onClickAdd(book.bookID)
                     }}
                     numberInCart = {numInCart}
-          />)
+          />
+          <MySnackBar       open={state.snackBarState.open}
+                            message ={state.snackBarState.message}
+                            handleClose={this.closeSnackBar}
+                            variant={state.snackBarState.variant}
+          />
+          </div>
+          )
       }
     })
     return (

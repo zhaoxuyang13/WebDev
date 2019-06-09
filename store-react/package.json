@@ -19,6 +19,7 @@
     "history": "^4.9.0",
     "jquery": "^3.3.1",
     "less": "^2.7.2",
+    "material-ui-dropzone": "^2.3.5",
     "material-ui-next-pickers": "0.0.20",
     "material-ui-pickers": "^2.2.4",
     "mui-datatables": "^2.0.0-beta.59",

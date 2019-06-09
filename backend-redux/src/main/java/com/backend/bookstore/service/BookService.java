@@ -1,44 +1,28 @@
 package com.backend.bookstore.service;
 
+import com.backend.bookstore.entity.BookCover;
 import com.backend.bookstore.entity.BookData;
 import com.backend.bookstore.entity.BookDataSend;
 import com.backend.bookstore.entity.OrderItem;
 import com.backend.bookstore.mapper.BookMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.mongodb.client.gridfs.model.GridFSFile;
+import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
-public class BookService {
-    @Autowired
-    BookMapper bookMapper;
-    public List<BookDataSend> SelectAll(){
-        List<BookData> bookData= bookMapper.SelectAll();
-        List<BookDataSend> selectAll = new ArrayList<BookDataSend>();
-        for(BookData data: bookData){
-            selectAll.add(new BookDataSend(data));
-        }
-        return selectAll;
-    }
-    public BookData SelectByID(int id){
-        return  bookMapper.SelectByID(id);
-    }
-    public void RemoveFromStorage(ArrayList<OrderItem> items){
-        for(OrderItem item: items)
-            bookMapper.RemoveFromStorage(item);
-    }
-    public void UpdateBookList(BookData bookData){
-        bookMapper.UpdateBookList(bookData);
-    }
+public interface BookService {
 
-    public void InsertBookList(BookData bookData){
-        bookData.setBookID(bookMapper.SelectMaxBookID()+1);
-        bookMapper.InsertBookList(bookData);
-    }
-    public void DeleteBookByID(int bookID){
-        bookMapper.DeleteBookByID(bookID);
-    }
-
+    List<BookDataSend> SelectAll();
+    BookData SelectByID(int id);
+    void RemoveFromStorage(ArrayList<OrderItem> items);
+    void UpdateBookList(BookData bookData);
+    void InsertBookList(BookData bookData);
+    void DeleteBookByID(int bookID);
+    GridFsResource findCoverByFileName(String filename);
+    void saveCover(MultipartFile file,String filename) throws Exception ;
 }

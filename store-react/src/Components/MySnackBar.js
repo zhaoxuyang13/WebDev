@@ -30,7 +30,7 @@ const useStyles1 = makeStyles(theme => ({
     backgroundColor: "#343a40",
   },
   warning: {
-    backgroundColor: amber[700],
+    backgroundColor: "#dc3545",
   },
   icon: {
     fontSize: 20,

@@ -5,6 +5,7 @@ import com.backend.bookstore.entity.Beans.LoginBean;
 import com.backend.bookstore.entity.Beans.SignUpBean;
 import com.backend.bookstore.entity.UserData;
 import com.backend.bookstore.service.UserService;
+import com.backend.bookstore.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,7 +73,6 @@ public class UserController {
     final String INCORRECT_EMAIL_FORMAT = "INCORRECT_EMAIL_FORMAT";
     @Autowired
     private UserService userService;
-
     @PostConstruct
     public void init(){ }
 

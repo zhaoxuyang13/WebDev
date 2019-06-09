@@ -1,9 +1,9 @@
 package com.backend.bookstore.web;
 
 import com.alibaba.fastjson.JSON;
-import com.backend.bookstore.entity.Beans.BookEditBean;
 import com.backend.bookstore.entity.Beans.UserEditBean;
 import com.backend.bookstore.service.UserService;
+import com.backend.bookstore.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +18,6 @@ public class UserListController {
 
     @Autowired
     private UserService userService;
-
     @PostConstruct
     public void init(){ }
 
