@@ -14,4 +14,5 @@ public interface OrderMapper {
     List<Order> SelectOrderByUser(int userID);
     List<Order> SelectAllOrders();
     List<Order> SelectByTimeRange(int userID,long startTime,long endTime);
+    List<Order> SelectAllByTimeRange(long startTime,long endTime);
 }

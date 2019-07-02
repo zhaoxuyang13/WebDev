@@ -33,10 +33,15 @@ public class OrderController {
         return JSON.toJSONString(orderService.SelectOrderWithItemsByUser(userID));
     }
     @RequestMapping(value="/UserAndTime",method = RequestMethod.POST)
-    public String getOrderListFilterByTime(@RequestBody DatePairBean datePairBean,HttpSession session){
+    public String getUserOrderListFilterByTime(@RequestBody DatePairBean datePairBean,HttpSession session){
         System.out.println(datePairBean.getStartTime() + " " + datePairBean.getEndTime());
         UserData userData = (UserData) session.getAttribute("User");
         return JSON.toJSONString(orderService.SelectByTimeRange(userData.getUserID(),datePairBean));
+    }
+    @RequestMapping(value="/Time",method = RequestMethod.POST)
+    public String getAllOrderListFilterByTime(@RequestBody DatePairBean datePairBean){
+        System.out.println(datePairBean.getStartTime() + " " + datePairBean.getEndTime());
+        return JSON.toJSONString(orderService.SelectAllByTimeRange(datePairBean));
     }
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String editOrderList(@RequestBody BookEditBean bookEditBean, HttpSession session){

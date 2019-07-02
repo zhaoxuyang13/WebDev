@@ -8,6 +8,7 @@ import SignUpPage from './SignUpPage'
 import AdminPage from './AdminPage'
 import CartPage from './CartPage'
 import UserHomePage from './UserHomePage'
+import SumPage from './SumPage'
 
 class MainRouter extends Component {
   render () {
@@ -22,6 +23,7 @@ class MainRouter extends Component {
             <Route path="/SignUpPage" exact component={SignUpPage}/>
             <Route path="/AdminPage" exact component={AdminPage}/>
             <Route path="/UserHomePage" exact component={UserHomePage}/>
+            <Route path="/AdminSumPage" exact component={SumPage}/>
           </BookStore>
         </Router>
       </div>

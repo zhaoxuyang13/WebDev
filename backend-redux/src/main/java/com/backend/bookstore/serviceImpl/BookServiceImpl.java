@@ -7,6 +7,7 @@ import com.backend.bookstore.mapper.BookMapper;
 import com.backend.bookstore.service.BookService;
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.model.GridFSFile;
+import org.springframework.data.mongodb.CodecRegistryProvider;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
@@ -65,9 +66,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public void deleteCover(String filename) {
+        Query query = Query.query(Criteria.where("filename").is(filename));
+        gridFsTemplate.delete(query);
+    }
+    @Override
     public void saveCover(MultipartFile file, String filename) throws Exception {
         InputStream inputStream = file.getInputStream();
+        if(findCoverByFileName(filename) != null)
+            deleteCover(filename);
         gridFsTemplate.store(inputStream,filename);
     }
+
 
 }

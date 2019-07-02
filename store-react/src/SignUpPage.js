@@ -4,8 +4,35 @@ import { loginWithId } from './actions/loginAction'
 import { connect } from 'react-redux'
 import { signUp } from './actions/SignUpAction'
 import axios from 'axios'
+import MySnackBar from './Components/MySnackBar'
 
 class SignUpPageRaw extends Component {
+  constructor (props){
+  super(props)
+  this.state = {
+    snackBarState:{
+      open : false,
+      variant:"info"
+    }
+  }
+}
+  closeSnackBar = ()=>{
+    this.setState({
+      snackBarState:{
+        open:false,
+        variant:"info"
+      }
+    })
+  }
+  openSnackBar = (newState) =>{
+    this.setState({
+      snackBarState:{
+        open : true,
+        message : newState.message,
+        variant: newState.variant,
+      }
+    })
+  }
   gotoLoginPage = () => {
     this.props.history.push('./LoginPage')
   }
@@ -13,11 +40,7 @@ class SignUpPageRaw extends Component {
     this.props.history.push('./')
   }
   validator = (username, email, pswd, pswd_confirm) => {
-    if (pswd !== pswd_confirm) {
-      alert('password_confirm not consistent with password , try again !')
-      return false
-    }
-    return true
+    return pswd === pswd_confirm;
   }
   signUp = () => {
     //TODO: better way for getG value
@@ -53,11 +76,15 @@ class SignUpPageRaw extends Component {
       })
     } else {
       //TODO : clear form.
-      alert('failed.invalid password')
+      this.openSnackBar({
+        variant: "warning",
+        message: "密码不一致"
+      });
     }
   }
 
   render () {
+    const state = this.state
     return (
       <div className="jumbotron jumbotron-fluid ">
         <div className="container flex-column ">
@@ -83,6 +110,11 @@ class SignUpPageRaw extends Component {
             <button type="button" className="btn btn-dark" onClick={this.gotoLoginPage}>已有账号，我要登陆</button>
           </div>
         </div>
+        <MySnackBar       open={state.snackBarState.open}
+                          message ={state.snackBarState.message}
+                          handleClose={this.closeSnackBar}
+                          variant={state.snackBarState.variant}
+        />
       </div>
     )
   }

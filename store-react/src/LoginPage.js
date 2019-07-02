@@ -66,6 +66,18 @@ class LoginPageRaw extends Component {
         else this.gotoHomePage();
       }else{
         let errorInfo = response.data.errorInfo;
+        let errorReason = "错误";
+        switch (errorInfo) {
+          case "INCORRECT_PASSWORD":
+            errorReason = "用户名/密码错误";
+            break;
+          case "BANNED_ACCOUNT":
+            errorReason = "您的账号已经被禁用";
+            break;
+          case "INCORRECT_EMAIL_FORMAT":
+            errorReason = "邮箱格式错误";
+            break;
+        }
         this.openSnackBar({
           variant: "error",
           message :"登录失败.\n  原因 : " + errorInfo});

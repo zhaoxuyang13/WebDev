@@ -38,28 +38,9 @@ const summaryCalculator = (type, rows, getValue) => {
 const messages = {
   countOrder:"订单数",
   countBook:"书本数",
-
 };
 
-const orderTableColumns =[
-  { name: 'bookID', title: 'bookID' },
-  { name: "bookName", title: "书名"},
-  { name: 'bookNum', title: '数量' },
-  { name: 'price', title: '购买单价' },
-]
-const OrderTable = ({row})=>(
-  <Paper>
-    <Grid
-      rows={row.orderItems}
-      columns={orderTableColumns}
-    >
-      <Table />
-      <TableHeaderRow />
-    </Grid>
-  </Paper>
-)
-
-export default class UserSumForm extends React.PureComponent {
+export default class AdminSumForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,29 +51,29 @@ export default class UserSumForm extends React.PureComponent {
         endTime :null,
       },
       columns: [
-        { name: 'orderID', title: '订单号' },
-        { name: 'orderTime', title: '下单时间' },
-        { name : "orderSum", title: "总金额"}
+        { name: 'bookID', title: 'ID' },
+        { name: 'bookName', title: '书名' },
+        { name : "bookPrice", title: "单价"},
+        { name : "sales", title: "销量"},
+        { name : "total", title: "总额"}
       ],
-      columnOrder: ['orderID','orderTime',"orderSum"],
+      columnOrder: ['bookID','bookName',"bookPrice","sales","total"],
       tableColumnExtensions: [
-        { columnName: 'orderTime', width: 250 },
-        { columnName: 'orderSum', width: 100, align: 'right' },
+        { columnName: 'total',align: 'right' },
       ],
       rows: [],
       sorting: [],
-      editingRowIds: [],
-      addedRows: [],
       rowChanges: {},
       defaultColumnWidth: [
-        { columnName: 'orderID', width: 100 },
-        { columnName: 'orderTime', width: 250 },
-        { columnName: 'orderSum', width: 100, },
+        { columnName: 'bookID', width: 100 },
+        { columnName: 'bookName', width: 250 },
+        { columnName: 'bookPrice', width: 100, },
+        { columnName: 'sales', width: 200, },
+        { columnName: 'total', width: 200, },
       ],
       totalSummaryItems:[
-        {columnName:'orderID',type:"countOrder"},
-        {columnName:'orderID',type:"countBook"},
-        {columnName:"orderSum",type:"sum"},
+        {columnName:"total",type:"sum"},
+        {columnName:"sales",type:"sum"},
       ],
 
     };
@@ -145,7 +126,7 @@ export default class UserSumForm extends React.PureComponent {
           withCredentials: true,
           baseURL: 'http://localhost:8080/',
           method: 'post',
-          url: '/Order/UserAndTime',
+          url: '/Order/Time',
           responseType: 'json'
         }).then(this.handleResponse)
       }
@@ -153,33 +134,30 @@ export default class UserSumForm extends React.PureComponent {
   }
   handleResponse = (response) => {
     console.log(response)
-    const orderWithKey = []
+    const bookListWithSaleData = [];
+    this.props.bookList.forEach(item =>{
+      const listItem = {
+        id:item.bookID,
+        bookID: item.bookID,
+        bookName: item.bookInfo.bookName,
+        bookPrice: item.bookInfo.bookPrice,
+        sales: 0,
+        total: 0,
+      }
+      bookListWithSaleData.push(listItem);
+    })
+    console.log(bookListWithSaleData);
     for (let i = 0; i < response.data.length; i++) {
-      let orderSum = 0;
-      response.data[i].orderItems.forEach(item => orderSum += item.price * item.bookNum);
-      let orderItemWithBookInfo = response.data[i].orderItems.map((item)=> {
-          console.log(item)
-          let book = this.props.bookList.find(book => book.bookID === item.bookID);
-          if (book !== undefined) {
-            let bookInfo = book.bookInfo;
-            return Object.assign({}, item, {
-              bookName: bookInfo.bookName,
-              bookISBN: bookInfo.bookISBN,
-              bookAuthor: bookInfo.bookAuthor,
-            });
-          }else return item;
-        }
-      );
-      orderWithKey.push({
-        id:i,
-        orderID:response.data[i].order.orderID,
-        orderTime:response.data[i].order.orderTime,
-        orderItems:orderItemWithBookInfo,
-        orderSum: orderSum
+      response.data[i].orderItems.forEach(item => {
+        bookListWithSaleData.find(listItem => listItem.bookID === item.bookID).sales += item.bookNum;
       })
     }
+    console.log(bookListWithSaleData)
+    bookListWithSaleData.forEach(item => {
+      item.total = item.sales*item.bookPrice;
+    })
     this.setState({
-      rows: orderWithKey
+      rows: bookListWithSaleData
     })
   }
   render() {
@@ -191,7 +169,6 @@ export default class UserSumForm extends React.PureComponent {
           <div className="col-6"><DateAndTimePickers  label="开始时间" onChange={this.onStartPick}/></div>
           <div className="col-6"><DateAndTimePickers  label="结束时间" onChange={this.onEndPick}/></div>
         </Paper>
-
         <Grid
           rows={rows}
           columns={columns}
@@ -213,9 +190,6 @@ export default class UserSumForm extends React.PureComponent {
           <DragDropProvider/>
           <VirtualTable
             columnExtensions={tableColumnExtensions}
-          />
-          <TableRowDetail
-            contentComponent={OrderTable}
           />
           <TableColumnResizing defaultColumnWidths={defaultColumnWidth}/>
           <TableColumnReordering

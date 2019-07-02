@@ -24,4 +24,5 @@ public interface OrderService {
     List<OrderWithItems> SelectAllOrderWithItems();
 
     List<OrderWithItems> SelectByTimeRange(int userID, DatePairBean datePairBean);
+    List<OrderWithItems> SelectAllByTimeRange(DatePairBean datePairBean);
 }

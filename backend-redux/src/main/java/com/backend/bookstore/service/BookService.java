@@ -25,4 +25,5 @@ public interface BookService {
     void DeleteBookByID(int bookID);
     GridFsResource findCoverByFileName(String filename);
     void saveCover(MultipartFile file,String filename) throws Exception ;
+    void deleteCover(String filename);
 }

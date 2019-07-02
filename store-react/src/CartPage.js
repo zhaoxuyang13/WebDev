@@ -6,6 +6,7 @@ import { Paper } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import coverImg from './img/covers/7.png'
 import axios from 'axios'
+import MySnackBar from './Components/MySnackBar'
 
 axios.defaults.withCredentials = true
 
@@ -80,9 +81,38 @@ class CartCard extends Component {
 }
 
 class CartPageRaw extends Component {
+  state = {
+    bookNameFilter: "",
+    snackBarState:{
+      open : false,
+      variant:"info"
+    }
+  }
+closeSnackBar = ()=>{
+  this.setState({
+    snackBarState:{
+      open:false,
+      variant:"info"
+    }
+  })
+}
+openSnackBar = (newState) =>{
+  this.setState({
+    snackBarState:{
+      open : true,
+      message : newState.message,
+      variant: newState.variant,
+    }
+  })
+}
+
+
   componentWillMount () {
     if (!this.props.userInfo.isLogin) {
-      alert('please Login first,Redirecting to Login Page...')
+      this.openSnackBar({
+        variant: "warning",
+        message: "please Login first! going to Login Page"
+      })
       this.props.history.push('./LoginPage')
     }
   }
@@ -156,10 +186,11 @@ class CartPageRaw extends Component {
         if (bookInfo !== undefined) {
           totalNum += book.number
           totalPrice += book.number * bookInfo.bookInfo.bookPrice
+          const coverUrl = bookInfo.bookInfo.bookCoverUrl === "" ?  "http://localhost:8080/BooksList/bookCover?bookID="+ bookInfo.bookID : bookInfo.bookInfo.bookCoverUrl;
           return (
             <CartCard key={book.bookID}
                       bookName={bookInfo.bookInfo.bookName}
-                      coverUrl={coverImg}
+                      coverUrl={coverUrl}
                       bookISBN={bookInfo.bookInfo.bookISBN}
                       bookPrice={bookInfo.bookInfo.bookPrice}
                       authorName={bookInfo.bookInfo.bookAuthor}
@@ -185,10 +216,16 @@ class CartPageRaw extends Component {
       />
     </div>
     const bookCartDisplay = inCartBooks === null ? <EmptyCartMsg/> : notEmptyCart
+    const state = this.state
     return (
       <div className="mainColumn flex-column">
         <Tab/>
         {bookCartDisplay}
+        <MySnackBar       open={state.snackBarState.open}
+                          message ={state.snackBarState.message}
+                          handleClose={this.closeSnackBar}
+                          variant={state.snackBarState.variant}
+        />
       </div>
     )
   }

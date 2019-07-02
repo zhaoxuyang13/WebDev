@@ -33,23 +33,17 @@ public class OrderServiceImpl implements OrderService {
     }
     public List<OrderWithItems> SelectOrderWithItemsByUser(int userID){
         List<Order> orders = orderMapper.SelectOrderByUser(userID);
-        if(orders == null) return null;
-        List<OrderWithItems> orderWithItems = new ArrayList<>();
-        for(Order order : orders){
-            List<OrderItem> items = orderMapper.SelectOrderItemsByOrderID(order.getOrderID());
-            if(items != null) {
-                orderWithItems.add(
-                        new OrderWithItems(order, items)
-                );
-            }
-        }
-        return orderWithItems;
+        return getOrderWithItemsByOrderList(orders);
     }
     public List<Order> SelectAllOrders(){
         return orderMapper.SelectAllOrders();
     }
     public List<OrderWithItems> SelectAllOrderWithItems(){
         List<Order> orders = orderMapper.SelectAllOrders();
+        return getOrderWithItemsByOrderList(orders);
+    }
+
+    private List<OrderWithItems> getOrderWithItemsByOrderList(List<Order> orders) {
         if(orders == null) return null;
         List<OrderWithItems> orderWithItems = new ArrayList<>();
         for(Order order : orders){
@@ -65,16 +59,12 @@ public class OrderServiceImpl implements OrderService {
 
     public List<OrderWithItems> SelectByTimeRange(int userID, DatePairBean datePairBean){
         List<Order> orders=orderMapper.SelectByTimeRange(userID,datePairBean.getStartTime(),datePairBean.getEndTime());
-        if(orders == null) return null;
-        List<OrderWithItems> orderWithItems = new ArrayList<>();
-        for(Order order : orders){
-            List<OrderItem> items = orderMapper.SelectOrderItemsByOrderID(order.getOrderID());
-            if(items != null) {
-                orderWithItems.add(
-                        new OrderWithItems(order, items)
-                );
-            }
-        }
-        return orderWithItems;
+        return getOrderWithItemsByOrderList(orders);
     }
+
+    public List<OrderWithItems> SelectAllByTimeRange(DatePairBean datePairBean) {
+        List<Order> orders = orderMapper.SelectAllByTimeRange(datePairBean.getStartTime(),datePairBean.getEndTime());
+        return getOrderWithItemsByOrderList(orders);
+    }
+
 }

@@ -38,7 +38,11 @@ class NavigationBarRaw extends Component {
               onClick={this.gotoLoginPage}>登陆/注册</button>
     const adminAccess = isAdmin ?
       <li className="nav-item">
-        <Link className="nav-link" to="/AdminPage">管理员</Link>
+        <Link className="nav-link" to="/AdminPage">管理</Link>
+      </li> : null
+    const adminStatistic = isAdmin ?
+      <li className="nav-item">
+        <Link className="nav-link" to="/AdminSumPage">统计</Link>
       </li> : null
     const userAccess = isLogin && !isAdmin ?
       <li className="nav-item">
@@ -69,6 +73,7 @@ class NavigationBarRaw extends Component {
               <Link className="nav-link" to="/CartPage">购物车</Link>
             </li>
             {adminAccess}
+            {adminStatistic}
             {userAccess}
           </ul>
         </div>
